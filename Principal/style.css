@@ -1,0 +1,62 @@
+/* Fundo principal */
+.stApp {
+    background-color: #66adfa; /* azul escuro */
+    color: #ffffff;
+}
+
+/* Textos gerais */
+body, h1, h2, h3, h4, h5, h6, p, .st-markdown {
+    color: #ffffff !important;
+    
+}
+
+/* Bloco principal */
+.main .block-container {
+    background-color: #0f172a;
+}
+
+/* Painel lateral */
+[data-testid="stSidebar"] {
+    background-color: #2b00ff !important;
+}
+
+/* ===== BLOCO DE RESULTADO ===== */
+.recomendacao {
+    position: relative     ;
+    bottom: 2px !important;
+    right: 2px !important;
+    padding: 10px 10px !important;
+    border-radius: 8px !important;
+    top:auto !important;
+    background-color: rgba(8, 50, 147, 0.235) !important; /* translúcido */
+    color: #ffffff !important;
+    font-size: 14px !important;
+    z-index: 9999 !important;
+}
+
+/* Texto destacado */
+.destaque {
+    color: #031032; /* azul-claro */
+    font-weight: bold;
+} 
+
+/* ===== RODAPÉ "SOBRE NÓS" ===== */
+.sobre_nos {
+    position: static ;
+    bottom: 10px !important;
+    right: 20px !important;
+    background-color: rgba(255, 255, 255, 0.235) !important; /* translúcido */
+    color: #ffffff !important;
+    padding: 6px 8px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    z-index: 9999 !important;
+}
+
+.footer a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+  

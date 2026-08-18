@@ -5,8 +5,9 @@ import altair as alt
 import base64
 from pathlib import Path
 from questions_data import load_questions
+
 BASE_DIR = Path(__file__).resolve().parent
-logo = BASE_DIR / "../images/logo.png"
+logo = BASE_DIR.parent / "images" / "logo.png"
 
 st.logo(
     str(logo),

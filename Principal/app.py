@@ -1,74 +1,120 @@
-# app.py
 import streamlit as st
 import pandas as pd
-import altair as alt
-import base64
 from pathlib import Path
+
 from questions_data import load_questions
-
-BASE_DIR = Path(__file__).resolve().parent
-logo = BASE_DIR.parent / "images" / "logo.png"
-
-st.logo(
-    str(logo),
-    size="large",
-    link="https://www.instagram.com/escola_renato/"
-)
 
 
 st.set_page_config(
-    page_title="Algoritmo De Análise De Perfil",
+    page_title="Algoritmo de Análise de Perfil",
     page_icon="🎓",
     layout="wide"
 )
 
-with open("style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+BASE_DIR = Path(__file__).resolve().parent
+
+logo = BASE_DIR.parent / "images" / "logo.png"
+style = BASE_DIR / "style.css"
 
 
+if logo.exists():
+    st.logo(
+        str(logo),
+        size="large",
+        link="https://www.instagram.com/escola_renato/"
+    )
+
+
+if style.exists():
+    with open(style, encoding="utf-8") as f:
+        st.markdown(
+            f"<style>{f.read()}</style>",
+            unsafe_allow_html=True
+        )
 
 
 def calcular_resultados(answers, questions):
     scores = {}
+
     for q_idx, answer_idx in answers.items():
-        if answer_idx is not None:
-            pesos = questions[q_idx]["pesos"][answer_idx]
-            for materia, peso in pesos.items():
-                scores[materia] = scores.get(materia, 0) + peso
+        if answer_idx is None:
+            continue
+
+        pesos = questions[q_idx]["pesos"][answer_idx]
+
+        for materia, peso in pesos.items():
+            scores[materia] = scores.get(materia, 0) + peso
+
     return scores
 
 
-
 def show_results(scores):
+    if not scores:
+        st.warning(
+            "Não foi possível determinar uma área de afinidade. "
+            "Tente novamente."
+        )
+        return
 
-    df = pd.DataFrame(list(scores.items()), columns=["Curso/Área", "Pontuação"])
-    df = df.sort_values("Pontuação", ascending=False).reset_index(drop=True)
-
-    
-    if not df.empty:
-        curso_top = df.iloc[0]["Curso/Área"]
-        pontuacao = df.iloc[0]["Pontuação"]
-    else:
-        st.warning("Não foi possível determinar uma área de afinidade. Tente novamente.")
-    
-    st.subheader(f"Resultado:{curso_top}")
-    esq,dir = st.columns(2)
-    dir.markdown(
-        f"<div class='recomendacao'>"
-        f"<h4>🎯 Curso mais compatível: <span class='destaque'>{curso_top}</span></h4>"
-        f"<p>Com base nas suas respostas, você demonstra maior afinidade com "
-        f"<b>{curso_top}</b> </p>"
-        f"<p>Esse curso combina com o seu modo de pensar e preferências gerais. "
-        f"Vale a pena pesquisar mais sobre ele e ver se se identifica!</p>"
-        f"</div>",
-        unsafe_allow_html=True
+    df = pd.DataFrame(
+        list(scores.items()),
+        columns=["Curso/Área", "Pontuação"]
     )
 
+    df = (
+        df
+        .sort_values("Pontuação", ascending=False)
+        .reset_index(drop=True)
+    )
 
-    
+    curso_top = df.iloc[0]["Curso/Área"]
+    pontuacao = df.iloc[0]["Pontuação"]
 
-    esq.table(df)
+    st.subheader(f"Resultado: {curso_top}")
 
+    esq, dir = st.columns(2)
+
+    with dir:
+        st.markdown(
+            f"""
+            <div class="recomendacao">
+                <h4>
+                    🎯 Curso mais compatível:
+                    <span class="destaque">{curso_top}</span>
+                </h4>
+
+                <p>
+                    Com base nas suas respostas, você demonstra
+                    maior afinidade com <b>{curso_top}</b>.
+                </p>
+
+                <p>
+                    Esse curso combina com o seu modo de pensar
+                    e suas preferências gerais.
+                </p>
+
+                <p>
+                    Vale a pena pesquisar mais sobre essa área
+                    e verificar se você realmente se identifica
+                    com ela.
+                </p>
+
+                <p>
+                    <b>Pontuação:</b> {pontuacao}
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with esq:
+        st.markdown("### 📊 Afinidade com outras áreas")
+        st.dataframe(
+            df,
+            use_container_width=True,
+            hide_index=True
+        )
 
 
 if "tela_inicial" not in st.session_state:
@@ -89,86 +135,160 @@ if "submitted" not in st.session_state:
 
 if st.session_state.tela_inicial:
 
-    st.title("Algoritmo para Análise de Perfil")
-    esq,mid,dir = st.columns(3)
-    esq.markdown(
+    st.title("🎓 Algoritmo para Análise de Perfil")
+
+    st.markdown(
         """
-        Bem-vindo(a)!  
-        Este teste foi criado para te ajudar a descobrir qual curso ou área combina mais com o seu perfil estudantil.
+        ### Descubra qual área combina mais com você!
 
-        Você responderá perguntas simples sobre como pensa, age e aprende.
-        Ao final, verá o curso mais compatível e um gráfico com outras áreas que também se encaixam.
+        Este teste foi criado para ajudar você a descobrir
+        qual curso ou área pode ter maior compatibilidade
+        com o seu perfil estudantil.
 
-        
+        Você responderá perguntas simples sobre como pensa,
+        age e aprende.
+
+        Ao final, verá:
+
+        - 🎯 O curso/área mais compatível
+        - 📊 A pontuação das outras áreas
+        - 💡 Uma recomendação baseada nas suas respostas
         """
     )
 
-
-    esq,mid,dir = st.columns(3)
-    if st.button("Iniciar Teste"):
+    if st.button(
+        "🚀 Iniciar Teste",
+        use_container_width=True
+    ):
         st.session_state.tela_inicial = False
+        st.session_state.current_question = 0
         st.rerun()
 
+
 else:
+
     total = len(st.session_state.questions)
-    progress = (
-        st.session_state.current_question / total
-        if not st.session_state.submitted
-        else 1.0
-    )
-    
 
-    if not st.session_state.submitted:
-        q = st.session_state.questions[st.session_state.current_question]
-        
-        esq,mid,dir = st.columns(3)
-        mid.markdown(f"""<div id="Perguntas">  <center><h4>Pergunta {st.session_state.current_question + 1} de {total}</h4></center> </div>""", unsafe_allow_html=True)
-        
-        st.progress(progress)
-        st.markdown(f"<strong>{q['pergunta']}</strong></center>", unsafe_allow_html=True)
-        
-
-
-
-        key = f"q_{st.session_state.current_question}"
-        resposta = st.radio("Escolha uma opção:", q["alternativas"], key=key)
-        idx = q["alternativas"].index(resposta)
-        st.session_state.answers[st.session_state.current_question] = idx
-
-        col1, col2 = st.columns([1, 1])
-
-        with col1:
-            if st.session_state.current_question > 0 and st.button("⬅️ Anterior"):
-                st.session_state.current_question -= 1
-                st.rerun()
-
-        with col2:
-            if st.session_state.current_question < total - 1:
-                if st.button("Próximo ➡️"):
-                    st.session_state.current_question += 1
-                    st.rerun()
-            else:
-                if st.button("Finalizar ✅"):
-                    st.session_state.submitted = True
-                    st.rerun()
+    if total == 0:
+        st.error("Nenhuma pergunta foi encontrada.")
 
     else:
-        scores = calcular_resultados(st.session_state.answers, st.session_state.questions)
-        show_results(scores)
 
-        if st.button("🔁 Reiniciar Teste"):
-            st.session_state.tela_inicial = True
-            st.session_state.current_question = 0
-            st.session_state.answers = {}
-            st.session_state.submitted = False
-            st.rerun()
+        current = st.session_state.current_question
+
+        if current >= total:
+            current = total - 1
+            st.session_state.current_question = current
+
+        if not st.session_state.submitted:
+
+            q = st.session_state.questions[current]
+
+            progress = (current + 1) / total
+
+            st.progress(progress)
+
+            st.markdown(
+                f"""
+                <div id="Perguntas">
+                    <center>
+                        <h4>
+                            Pergunta {current + 1} de {total}
+                        </h4>
+                    </center>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                f"""
+                <h3>{q["pergunta"]}</h3>
+                """,
+                unsafe_allow_html=True
+            )
+
+            key = f"q_{current}"
+
+            alternativas = q["alternativas"]
+
+            resposta = st.radio(
+                "Escolha uma opção:",
+                alternativas,
+                key=key
+            )
+
+            idx = alternativas.index(resposta)
+
+            st.session_state.answers[current] = idx
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                if current > 0:
+                    if st.button(
+                        "⬅️ Anterior",
+                        use_container_width=True
+                    ):
+                        st.session_state.current_question -= 1
+                        st.rerun()
+
+            with col2:
+                if current < total - 1:
+                    if st.button(
+                        "Próximo ➡️",
+                        use_container_width=True
+                    ):
+                        st.session_state.current_question += 1
+                        st.rerun()
+                else:
+                    if st.button(
+                        "Finalizar ✅",
+                        use_container_width=True
+                    ):
+                        st.session_state.submitted = True
+                        st.rerun()
+
+        else:
+
+            scores = calcular_resultados(
+                st.session_state.answers,
+                st.session_state.questions
+            )
+
+            show_results(scores)
+
+            st.markdown("---")
+
+            if st.button(
+                "🔁 Reiniciar Teste",
+                use_container_width=True
+            ):
+                st.session_state.tela_inicial = True
+                st.session_state.current_question = 0
+                st.session_state.answers = {}
+                st.session_state.submitted = False
+
+                for key in list(st.session_state.keys()):
+                    if key.startswith("q_"):
+                        del st.session_state[key]
+
+                st.rerun()
 
 
 st.markdown(
     """
-    
     <div class="sobre_nos">
-        <center><p><a href="https://www.instagram.com/escola_renato/">Sobre nós</a></p>
+        <center>
+            <p>
+                <a
+                    href="https://www.instagram.com/escola_renato/"
+                    target="_blank"
+                >
+                    Sobre nós
+                </a>
+            </p>
+        </center>
     </div>
     """,
     unsafe_allow_html=True

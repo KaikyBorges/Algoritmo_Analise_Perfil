@@ -3,57 +3,6 @@ import pandas as pd
 def load_questions():
     return [
         {
-            "pergunta": "Como você lida com pressão ou prazos apertados?",
-            "alternativas": [
-                "Organizo os dados e priorizo as tarefas mais importantes",
-                "Mantenho a calma para apoiar quem depende de mim",
-                "Trabalho rapidamente para entregar uma solução funcional",
-                "Concentro-me em resolver cada etapa de forma lógica",
-                "Penso nas consequências humanas e busco equilíbrio"
-            ],
-            "pesos": [
-                {"Enfermagem": 0, "Ciência de Dados": 3, "Desenvolvimento de Sistemas": 1, "Exatas": 2, "Humanas": 0},
-                {"Enfermagem": 3, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 0, "Exatas": 0, "Humanas": 1},
-                {"Enfermagem": 0, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 3, "Exatas": 1, "Humanas": 0},
-                {"Enfermagem": 0, "Ciência de Dados": 1, "Desenvolvimento de Sistemas": 0, "Exatas": 3, "Humanas": 0},
-                {"Enfermagem": 0, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 0, "Exatas": 0, "Humanas": 3}
-            ],
-        },
-        {
-            "pergunta": "Que tipo de problema você gosta de resolver?",
-            "alternativas": [
-                "Problemas que exigem análise de dados e previsão",
-                "Problemas de saúde ou bem-estar de outras pessoas",
-                "Problemas técnicos em sistemas ou dispositivos",
-                "Problemas teóricos que envolvem lógica ou ciência",
-                "Problemas sociais ou culturais que afetam comunidades"
-            ],
-            "pesos": [
-                {"Enfermagem": 0, "Ciência de Dados": 3, "Desenvolvimento de Sistemas": 1, "Exatas": 2, "Humanas": 0},
-                {"Enfermagem": 3, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 0, "Exatas": 0, "Humanas": 1},
-                {"Enfermagem": 0, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 3, "Exatas": 1, "Humanas": 0},
-                {"Enfermagem": 0, "Ciência de Dados": 1, "Desenvolvimento de Sistemas": 0, "Exatas": 3, "Humanas": 0},
-                {"Enfermagem": 0, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 0, "Exatas": 0, "Humanas": 3}
-            ],
-        },
-        {
-            "pergunta": "Que tipo de leitura ou estudo mais te atrai?",
-            "alternativas": [
-                "Artigos sobre estatísticas, tecnologia ou dados",
-                "Materiais sobre saúde, cuidados e bem-estar",
-                "Tutoriais de programação ou tecnologia",
-                "Livros de matemática, física ou ciências exatas",
-                "Textos sobre história, sociologia ou filosofia"
-            ],
-            "pesos": [
-                {"Enfermagem": 0, "Ciência de Dados": 3, "Desenvolvimento de Sistemas": 1, "Exatas": 2, "Humanas": 0},
-                {"Enfermagem": 3, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 0, "Exatas": 0, "Humanas": 1},
-                {"Enfermagem": 0, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 3, "Exatas": 1, "Humanas": 0},
-                {"Enfermagem": 0, "Ciência de Dados": 1, "Desenvolvimento de Sistemas": 0, "Exatas": 3, "Humanas": 0},
-                {"Enfermagem": 0, "Ciência de Dados": 0, "Desenvolvimento de Sistemas": 0, "Exatas": 0, "Humanas": 3}
-            ],
-        },
-        {
             "pergunta": "Como você prefere passar seu tempo livre?",
             "alternativas": [
                 "Explorando novas ferramentas de análise ou tecnologia",

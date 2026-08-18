@@ -260,5 +260,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-com essa nova versão, centralize tudo no final

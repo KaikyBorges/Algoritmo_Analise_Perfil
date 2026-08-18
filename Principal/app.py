@@ -51,19 +51,57 @@ def calcular_resultados(answers, questions):
 
 def show_results(scores):
     if not scores:
-        st.markdown(
-            """
-            <div style="text-align: center;">
-                <h2>⚠️ Não foi possível determinar seu resultado</h2>
-                <p>
-                    Não encontramos uma área de afinidade com suas respostas.
-                    Tente realizar o teste novamente.
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.warning(
+            "Não foi possível determinar uma área de afinidade. "
+            "Tente novamente."
         )
         return
+
+    df = pd.DataFrame(
+        list(scores.items()),
+        columns=["Curso/Área", "Pontuação"]
+    )
+
+    df = (
+        df
+        .sort_values("Pontuação", ascending=False)
+        .reset_index(drop=True)
+    )
+
+    curso_top = df.iloc[0]["Curso/Área"]
+    pontuacao = df.iloc[0]["Pontuação"]
+
+    _, centro, _ = st.columns([1, 2, 1])
+
+    with centro:
+        st.title("🎉 Resultado")
+        st.subheader("Sua maior afinidade é com:")
+        st.header(curso_top)
+
+        st.write(f"**Pontuação:** {pontuacao}")
+
+        st.write(
+            "Com base nas suas respostas, você demonstra maior "
+            "afinidade com essa área."
+        )
+
+        st.write(
+            "Esse resultado é uma indicação baseada nas suas respostas "
+            "e não uma definição definitiva da sua carreira."
+        )
+
+    st.divider()
+
+    _, centro, _ = st.columns([1, 2, 1])
+
+    with centro:
+        st.subheader("📊 Afinidade com outras áreas")
+
+        st.dataframe(
+            df,
+            use_container_width=True,
+            hide_index=True
+        )
 
     df = pd.DataFrame(
         list(scores.items()),

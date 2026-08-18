@@ -4,7 +4,14 @@ import pandas as pd
 import altair as alt
 import base64
 from questions_data import load_questions
-st.logo("../images/logo.png", size="large", link="https://www.instagram.com/escola_renato/")
+BASE_DIR = Path(__file__).resolve().parent
+logo = BASE_DIR / "../images/logo1.png"
+
+st.logo(
+    str(logo),
+    size="large",
+    link="https://www.instagram.com/escola_renato/"
+)
 
 
 st.set_page_config(

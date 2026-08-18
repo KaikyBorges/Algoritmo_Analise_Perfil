@@ -71,102 +71,17 @@ def show_results(scores):
     curso_top = df.iloc[0]["Curso/Área"]
     pontuacao = df.iloc[0]["Pontuação"]
 
-    _, centro, _ = st.columns([1, 2, 1])
+    st.subheader(f"Resultado: {curso_top}")
 
-    with centro:
-        st.title("🎉 Resultado")
-        st.subheader("Sua maior afinidade é com:")
-        st.header(curso_top)
+    esq, dir = st.columns(2)
 
-        st.write(f"**Pontuação:** {pontuacao}")
-
-        st.write(
-            "Com base nas suas respostas, você demonstra maior "
-            "afinidade com essa área."
-        )
-
-        st.write(
-            "Esse resultado é uma indicação baseada nas suas respostas "
-            "e não uma definição definitiva da sua carreira."
-        )
-
-    st.divider()
-
-    _, centro, _ = st.columns([1, 2, 1])
-
-    with centro:
-        st.subheader("📊 Afinidade com outras áreas")
-
+    with esq:
+        st.markdown("### 📊 Afinidade com outras áreas")
         st.dataframe(
             df,
             use_container_width=True,
             hide_index=True
         )
-
-    df = pd.DataFrame(
-        list(scores.items()),
-        columns=["Curso/Área", "Pontuação"]
-    )
-
-    df = (
-        df
-        .sort_values("Pontuação", ascending=False)
-        .reset_index(drop=True)
-    )
-
-    curso_top = df.iloc[0]["Curso/Área"]
-    pontuacao = df.iloc[0]["Pontuação"]
-
-    st.markdown(
-        f"""
-        <div style="text-align: center;">
-
-            <h1>🎉 Resultado</h1>
-
-            <h2>
-                Sua maior afinidade é com:
-            </h2>
-
-            <h1>{curso_top}</h1>
-
-            <p>
-                Pontuação: <b>{pontuacao}</b>
-            </p>
-
-            <br>
-
-            <p>
-                Com base nas suas respostas, você demonstra
-                maior afinidade com essa área.
-            </p>
-
-            <p>
-                Esse resultado representa uma indicação baseada
-                nas suas respostas e não uma definição definitiva
-                da sua carreira.
-            </p>
-
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.markdown("---")
-
-    st.markdown(
-        """
-        <div style="text-align: center;">
-            <h2>📊 Afinidade com outras áreas</h2>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.dataframe(
-        df,
-        use_container_width=True,
-        hide_index=True
-    )
 
 
 if "tela_inicial" not in st.session_state:
@@ -187,54 +102,34 @@ if "submitted" not in st.session_state:
 
 if st.session_state.tela_inicial:
 
+    st.title("🎓 Algoritmo para Análise de Perfil")
+
     st.markdown(
         """
-        <div style="text-align: center;">
+        ### Descubra qual área combina mais com você!
 
-            <h1>🎓 Algoritmo para Análise de Perfil</h1>
+        Este teste foi criado para ajudar você a descobrir
+        qual curso ou área pode ter maior compatibilidade
+        com o seu perfil estudantil.
 
-            <h2>Descubra qual área combina mais com você!</h2>
+        Você responderá perguntas simples sobre como pensa,
+        age e aprende.
 
-            <br>
+        Ao final, verá:
 
-            <p>
-                Este teste foi criado para ajudar você a descobrir
-                qual curso ou área pode ter maior compatibilidade
-                com o seu perfil estudantil.
-            </p>
-
-            <p>
-                Você responderá perguntas simples sobre como pensa,
-                age e aprende.
-            </p>
-
-            <br>
-
-            <h3>Ao final, você verá:</h3>
-
-            <p>
-                🎯 O curso ou área mais compatível<br>
-                📊 A pontuação das outras áreas<br>
-                💡 Uma análise baseada nas suas respostas
-            </p>
-
-        </div>
-        """,
-        unsafe_allow_html=True
+        - 🎯 O curso/área mais compatível
+        - 📊 A pontuação das outras áreas
+        - 💡 Uma recomendação baseada nas suas respostas
+        """
     )
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    _, centro, _ = st.columns([1, 2, 1])
-
-    with centro:
-        if st.button(
-            "🚀 Iniciar Teste",
-            use_container_width=True
-        ):
-            st.session_state.tela_inicial = False
-            st.session_state.current_question = 0
-            st.rerun()
+    if st.button(
+        "🚀 Iniciar Teste",
+        use_container_width=True
+    ):
+        st.session_state.tela_inicial = False
+        st.session_state.current_question = 0
+        st.rerun()
 
 
 else:
@@ -242,15 +137,7 @@ else:
     total = len(st.session_state.questions)
 
     if total == 0:
-
-        st.markdown(
-            """
-            <div style="text-align: center;">
-                <h2>⚠️ Nenhuma pergunta foi encontrada.</h2>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        st.error("Nenhuma pergunta foi encontrada.")
 
     else:
 
@@ -270,22 +157,23 @@ else:
 
             st.markdown(
                 f"""
-                <div style="text-align: center;">
-
-                    <h4>
-                        Pergunta {current + 1} de {total}
-                    </h4>
-
-                    <h2>
-                        {q["pergunta"]}
-                    </h2>
-
+                <div id="Perguntas">
+                    <center>
+                        <h4>
+                            Pergunta {current + 1} de {total}
+                        </h4>
+                    </center>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
 
-            st.markdown("<br>", unsafe_allow_html=True)
+            st.markdown(
+                f"""
+                <h3>{q["pergunta"]}</h3>
+                """,
+                unsafe_allow_html=True
+            )
 
             key = f"q_{current}"
 
@@ -301,14 +189,10 @@ else:
 
             st.session_state.answers[current] = idx
 
-            st.markdown("<br>", unsafe_allow_html=True)
-
-            col1, col2, col3 = st.columns([1, 2, 1])
+            col1, col2 = st.columns(2)
 
             with col1:
-
                 if current > 0:
-
                     if st.button(
                         "⬅️ Anterior",
                         use_container_width=True
@@ -317,18 +201,14 @@ else:
                         st.rerun()
 
             with col2:
-
                 if current < total - 1:
-
                     if st.button(
                         "Próximo ➡️",
                         use_container_width=True
                     ):
                         st.session_state.current_question += 1
                         st.rerun()
-
                 else:
-
                     if st.button(
                         "Finalizar ✅",
                         use_container_width=True
@@ -345,41 +225,40 @@ else:
 
             show_results(scores)
 
-            st.markdown("<br>", unsafe_allow_html=True)
+            st.markdown("---")
 
-            _, centro, _ = st.columns([1, 2, 1])
+            if st.button(
+                "🔁 Reiniciar Teste",
+                use_container_width=True
+            ):
+                st.session_state.tela_inicial = True
+                st.session_state.current_question = 0
+                st.session_state.answers = {}
+                st.session_state.submitted = False
 
-            with centro:
+                for key in list(st.session_state.keys()):
+                    if key.startswith("q_"):
+                        del st.session_state[key]
 
-                if st.button(
-                    "🔁 Reiniciar Teste",
-                    use_container_width=True
-                ):
-
-                    st.session_state.tela_inicial = True
-                    st.session_state.current_question = 0
-                    st.session_state.answers = {}
-                    st.session_state.submitted = False
-
-                    for key in list(st.session_state.keys()):
-                        if key.startswith("q_"):
-                            del st.session_state[key]
-
-                    st.rerun()
+                st.rerun()
 
 
 st.markdown(
     """
-    <div class="sobre_nos" style="text-align: center;">
-        <p>
-            <a
-                href="https://www.instagram.com/escola_renato/"
-                target="_blank"
-            >
-                Sobre nós
-            </a>
-        </p>
+    <div class="sobre_nos">
+        <center>
+            <p>
+                <a
+                    href="https://www.instagram.com/escola_renato/"
+                    target="_blank"
+                >
+                    Sobre nós
+                </a>
+            </p>
+        </center>
     </div>
     """,
     unsafe_allow_html=True
 )
+
+com essa nova versão, centralize tudo no final

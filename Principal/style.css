@@ -54,10 +54,15 @@ body, h1, h2, h3, h4, h5, h6, p, .st-markdown {
     font-size: 14px !important;
     z-index: 9999 !important;
 }
+.sobre_nos a {
+    color: #fffbb8;
+    text-decoration: none;
+    font-weight: bold;
+}
 
 
 .footer a {
-    color: #fffbb8;
+    color: #38bdf8;
     text-decoration: none;
     font-weight: bold;
 }

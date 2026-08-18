@@ -42,6 +42,7 @@ body, h1, h2, h3, h4, h5, h6, p, .st-markdown {
 
 /* ===== RODAPÉ "SOBRE NÓS" ===== */
 .sobre_nos {
+    
     position: static ;
     bottom: 10px !important;
     right: 20px !important;
@@ -51,6 +52,9 @@ body, h1, h2, h3, h4, h5, h6, p, .st-markdown {
     border-radius: 8px !important;
     font-size: 14px !important;
     z-index: 9999 !important;
+}
+a {
+    color:red
 }
 
 .footer a {

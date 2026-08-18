@@ -11,6 +11,11 @@ st.set_page_config(
     layout="wide"
 )
 
+.StMarkdown a {
+    color:red
+}
+
+
 
 BASE_DIR = Path(__file__).resolve().parent
 

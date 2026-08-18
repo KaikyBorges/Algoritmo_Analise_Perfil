@@ -4,7 +4,7 @@ import pandas as pd
 import altair as alt
 import base64
 from questions_data import load_questions
-st.logo("images/logo1.png", size="large", link="https://www.instagram.com/escola_renato/")
+st.logo("../images/logo1.png", size="large", link="https://www.instagram.com/escola_renato/")
 
 
 st.set_page_config(

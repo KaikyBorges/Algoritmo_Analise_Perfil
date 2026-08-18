@@ -4,9 +4,6 @@
     color: #ffffff;
 }
 
-st.markdown a {
-    color:red
-}
 
 /* Textos gerais */
 body, h1, h2, h3, h4, h5, h6, p, .st-markdown {
@@ -57,12 +54,10 @@ body, h1, h2, h3, h4, h5, h6, p, .st-markdown {
     font-size: 14px !important;
     z-index: 9999 !important;
 }
-a {
-    color:red;
-}
+
 
 .footer a {
-    color: #38bdf8;
+    color: #fffbb8;
     text-decoration: none;
     font-weight: bold;
 }

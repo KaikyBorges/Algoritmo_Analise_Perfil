@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide"
 )
 
-.StMarkdown a {
+st.markdown a {
     color:red
 }
 

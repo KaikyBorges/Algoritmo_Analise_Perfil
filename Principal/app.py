@@ -75,39 +75,6 @@ def show_results(scores):
 
     esq, dir = st.columns(2)
 
-    with dir:
-        st.markdown(
-            f"""
-            <div class="recomendacao">
-                <h4>
-                    🎯 Curso mais compatível:
-                    <span class="destaque">{curso_top}</span>
-                </h4>
-
-                <p>
-                    Com base nas suas respostas, você demonstra
-                    maior afinidade com <b>{curso_top}</b>.
-                </p>
-
-                <p>
-                    Esse curso combina com o seu modo de pensar
-                    e suas preferências gerais.
-                </p>
-
-                <p>
-                    Vale a pena pesquisar mais sobre essa área
-                    e verificar se você realmente se identifica
-                    com ela.
-                </p>
-
-                <p>
-                    <b>Pontuação:</b> {pontuacao}
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
     with esq:
         st.markdown("### 📊 Afinidade com outras áreas")
         st.dataframe(

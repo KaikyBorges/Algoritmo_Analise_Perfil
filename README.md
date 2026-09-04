@@ -1,88 +1,67 @@
-# Algoritmo_Analise_Perfil
-Algoritmo para analise de perfil estudantil, tem o intuito de calcular o seu perfil estudantil para a designação de melhor indicação de curso técnico entre: Ciencia De Dados, Desenvolvimento De Sistemas, Enferagem e Itinerários Formativos
+# Algoritmo de Análise de Perfil
 
+Aplicação interativa em **Python + Streamlit** que aplica um questionário vocacional e recomenda a área/curso com maior afinidade com o perfil do estudante, entre: Ciência de Dados, Desenvolvimento de Sistemas, Enfermagem, Exatas e Humanas.
 
-Algoritmo de Análise de Perfil – Streamlit
+Desenvolvido para apoiar a orientação educacional de estudantes da **Escola Renato De Arruda Penteado**.
 
-Este projeto é uma aplicação interativa desenvolvida em Python + Streamlit para auxiliar estudantes a descobrir qual área ou curso combina melhor com seu perfil.
-Através de um questionário adaptativo, o algoritmo calcula pontuações com base nas respostas e recomenda a área com maior afinidade, como:
+> **Escopo:** projeto educacional/institucional. O resultado é uma indicação de afinidade baseada em um questionário simplificado, não uma avaliação psicométrica validada.
 
-Enfermagem
+## Stack
 
-Ciência de Dados
+- **Python 3**
+- **Streamlit** — interface e gerenciamento de estado da sessão
+- **Pandas** — estruturação e ordenação dos resultados
+- **CSS personalizado** — identidade visual da instituição
 
-Desenvolvimento de Sistemas
+## Como funciona o algoritmo
 
-Exatas
+O questionário tem 10 perguntas, cada uma com 5 alternativas. Cada alternativa carrega um conjunto de pesos para as 5 áreas avaliadas — por exemplo, escolher a alternativa que reflete afinidade com dados soma pontos em "Ciência de Dados".
 
-Humanas
+**Decisão de design:** os pesos são definidos por **posição da alternativa**, e essa posição é consistente em todas as perguntas (a alternativa "ligada a dados" está sempre na 1ª posição, a "ligada a cuidado com pessoas" sempre na 2ª, e assim por diante). Isso foi uma simplificação proposital: manter uma estrutura fixa de pesos facilita adicionar novas perguntas no futuro (basta escrever o texto das 5 alternativas mantendo a ordem temática) e evita inconsistência entre pesos definidos pergunta a pergunta.
 
-🚀 Funcionalidades
+Ao final, as pontuações de todas as respostas são somadas por área, e a área com maior pontuação é exibida como resultado principal, junto com uma tabela comparativa de afinidade com as demais áreas.
 
-✔️ Questionário com várias perguntas e múltiplas alternativas
-✔️ Cálculo automático de pontuações por área
-✔️ Interface moderna e personalizada via style.css
-✔️ Sistema de navegação com Anterior, Próximo e Finalizar
-✔️ Exibição da área mais compatível + tabela completa dos resultados
-✔️ Possibilidade de reiniciar o teste
-✔️ Logo e link institucional
+## Estrutura do projeto
 
-🛠️ Tecnologias Utilizadas
+```
+Principal/
+├── app.py               # Interface Streamlit, navegação e cálculo do resultado
+├── questions_data.py     # Banco de perguntas, alternativas e pesos (load_questions)
+├── style.css             # Estilo visual (cores, layout, rodapé)
+└── images/
+    ├── logo.png
+    └── barra.png
+```
 
-Python 3+
+O estado do questionário (pergunta atual, respostas dadas, se já foi finalizado) é mantido inteiramente em `st.session_state` — não há persistência em banco de dados; cada sessão do navegador é independente e os dados não são salvos após o fechamento.
 
-Streamlit
+## Fluxo da aplicação
 
-Pandas
+1. **Tela inicial** — apresentação do teste e botão para iniciar
+2. **Questionário** — uma pergunta por vez, com navegação Anterior/Próximo e barra de progresso
+3. **Finalização** — cálculo das pontuações por área a partir de todas as respostas
+4. **Resultado** — área de maior afinidade em destaque, com tabela comparativa das demais áreas
+5. **Reiniciar** — limpa o estado da sessão e volta à tela inicial
 
-Altair
+## Rodando o projeto
 
-CSS personalizado
+```bash
+pip install streamlit pandas
+streamlit run Principal/app.py
+```
 
-▶️ Como executar o projeto
-1️⃣ Instale as dependências
+A aplicação abre automaticamente em `http://localhost:8501`.
 
-No terminal:
+## Personalização
 
-pip install streamlit pandas altair
+O arquivo `style.css` controla cores, estilo do bloco de recomendação, rodapé e tipografia. Pode ser adaptado para outra identidade visual sem alterar a lógica da aplicação.
 
-2️⃣ Execute a aplicação
-streamlit run app.py
+## Autores
 
+Projeto desenvolvido por alunos para apoiar a orientação educacional dos estudantes da Escola Renato De Arruda Penteado.
 
-O navegador abrirá automaticamente em http://localhost:8501.
+Instagram da instituição: [@escola_renato](https://www.instagram.com/escola_renato/)
 
-📊 Como funciona o algoritmo?
+## Licença
 
-Cada alternativa escolhida possui um conjunto de pesos que soma pontos para diferentes áreas.
-Exemplo simplificado:
-
-{"Enfermagem": 0, "Ciência de Dados": 3, "Desenvolvimento de Sistemas": 1}
-
-
-Ao final, o curso com maior pontuação é o recomendado.
-
-🎨 Personalização
-
-O arquivo style.css controla:
-
-cores do app
-
-estilo do bloco de recomendação
-
-rodapé personalizado Sobre nós
-
-fonte, espaçamentos e organização visual
-
-Você pode editar livremente para combinar com sua identidade visual.
-
-👥 Autores
-
-Projeto desenvolvido por alunos para auxiliar na orientação educacional dos estudantes da Escola Renato De Arruda Penteado
-
-Instagram da instituição:
-🔗 https://www.instagram.com/escola_renato/
-
-📜 Licença
-
-Este projeto é de uso livre para fins educacionais.
+Uso livre para fins educacionais.

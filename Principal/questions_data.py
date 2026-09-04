@@ -1,5 +1,3 @@
-import pandas as pd
-
 def load_questions():
     return [
         {
@@ -173,46 +171,3 @@ def load_questions():
             ],
         },
     ]
-
-def ask_questions(questions):
-    scores = {}
-    for q in questions:
-        print("\n" + q["pergunta"])
-        for i, alt in enumerate(q["alternativas"], start=1):
-            print(f"  {i}. {alt}")
-        while True:
-            escolha = input("Escolha uma opção (número): ").strip()
-            if not escolha.isdigit():
-                print("Entrada inválida. Digite o número da opção.")
-                continue
-            idx = int(escolha) - 1
-            if 0 <= idx < len(q["alternativas"]):
-                pesos = q["pesos"][idx]
-                for materia, peso in pesos.items():
-                    scores[materia] = scores.get(materia, 0) + peso
-                break
-            else:
-                print("Opção fora do intervalo. Tente novamente.")
-    return scores
-
-def show_results(scores):
-    df = pd.DataFrame(list(scores.items()), columns=["Curso/Area", "Score"])
-    df = df.sort_values("Score", ascending=False).reset_index(drop=True)
-    print("\nResultados (ordenados):")
-    print(df.to_string(index=False))
-    
-    if not df.empty:
-        curso_maior_pontuacao = df.iloc[0]["Curso/Area"]
-        pontuacao = df.iloc[0]["Score"]
-        print(f"\n**Recomendação**: Com base nas suas respostas, você parece ter maior afinidade com **{curso_maior_pontuacao}** (Pontuação: {pontuacao}).")
-        print("Isso indica que você pode se sair muito bem nesta área! Explore mais sobre este curso ou itinerário para confirmar seu interesse.")
-    else:
-        print("\n**Recomendação**: Não foi possível determinar uma área de maior afinidade. Por favor, tente responder às perguntas novamente.")
-
-def main():
-    questions = load_questions()
-    scores = ask_questions(questions)
-    show_results(scores)
-
-if __name__ == "__main__":
-    main()
